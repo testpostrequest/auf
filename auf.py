@@ -3,8 +3,6 @@ from sys import argv
 
 def solve(word1, word2, word3):
     letter_map = dict(Counter(word1 + word2 + word3))
-    for k in letter_map.keys():
-        letter_map[k] = -1
 
     solution = [None]
     letter_map_keys = sorted(letter_map.keys())
@@ -22,6 +20,9 @@ def combo(letter_map, letter_map_keys, letter_map_idx, remaining_nums, word1, wo
         return
 
     for num in list(remaining_nums):
+        if solution[0]:
+            return
+        
         remaining_nums.remove(num)
         letter_map[letter_map_keys[letter_map_idx]] = num
 
