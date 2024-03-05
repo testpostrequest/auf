@@ -107,13 +107,13 @@ bool check(map<char, int> letterMap, string word1, string word2, string word3)
 }
 
 void combo(
-    map<char, int> letterMap,
-    vector<char> letterMapKeys,
-    int letterMapIdx,
+    map<char, int> &letterMap,
+    vector<char> &letterMapKeys,
+    const int &letterMapIdx,
     vector<int> &remainingNums,
-    string word1,
-    string word2,
-    string word3,
+    string &word1,
+    string &word2,
+    string &word3,
     bool &foundSolution)
 {
     if (foundSolution)
@@ -125,19 +125,6 @@ void combo(
     {
         if (check(letterMap, word1, word2, word3))
         {
-            map<char, int>::iterator it;
-            cout << "{";
-            for (it = letterMap.begin(); it != letterMap.end(); it++)
-            {
-                cout << "'" << it->first << "'"
-                     << ": "
-                     << it->second;
-                if (next(it) != letterMap.end())
-                {
-                    cout << ", ";
-                }
-            }
-            cout << "}\n";
             foundSolution = true;
         }
         return;
@@ -157,7 +144,6 @@ void combo(
 
         combo(letterMap, letterMapKeys, letterMapIdx + 1, remainingNums, word1, word2, word3, foundSolution);
 
-        letterMap[letterMapKeys[letterMapIdx]] = -1;
         remainingNums.insert(remainingNums.begin() + i, num);
     }
 }
@@ -186,7 +172,24 @@ void solve(string word1, string word2, string word3)
     sort(letterMapKeys.begin(), letterMapKeys.end());
     vector<int> remainingNums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     combo(letterMap, letterMapKeys, 0, remainingNums, word1, word2, word3, foundSolution);
-    if (foundSolution == false)
+
+    if (foundSolution)
+    {
+        map<char, int>::iterator it;
+        cout << "{";
+        for (it = letterMap.begin(); it != letterMap.end(); it++)
+        {
+            cout << "'" << it->first << "'"
+                 << ": "
+                 << it->second;
+            if (next(it) != letterMap.end())
+            {
+                cout << ", ";
+            }
+        }
+        cout << "}\n";
+    }
+    else
     {
         cout << "No solution.\n";
     }
@@ -209,6 +212,7 @@ int main(int argc, char *argv[])
     catch (std::exception e)
     {
         cout << "Error: " << e.what() << "\n";
+        return 2;
     }
 
     return 0;
