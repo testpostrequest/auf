@@ -2,6 +2,7 @@ from collections import Counter
 from sys import argv
 
 def solve(word1, word2, word3):
+    print("Solving...")
     letter_map = dict(Counter(word1 + word2 + word3))
 
     solution = [None]
